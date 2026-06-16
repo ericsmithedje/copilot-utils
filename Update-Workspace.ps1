@@ -1,11 +1,10 @@
 <#
 .SYNOPSIS
-    Updates all git repositories in the Orion180 workspace to the latest 'main'
+    Updates all git repositories in a workspace to the latest 'main'
     and prunes stale local branches.
 
 .DESCRIPTION
-    For each immediate child directory that is a git repository (excluding
-    Orion180.Terraform):
+    For each immediate child directory that is a git repository:
       1. Fetches from origin with --prune (removes stale remote-tracking refs).
       2. Checks out 'main' and fast-forwards to origin/main.
       3. Deletes local branches (other than 'main') that are either:
@@ -33,7 +32,6 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$ExcludedRepos = @('Orion180.Terraform')
 $DefaultBranch = 'main'
 
 function Write-Section($Text) {
@@ -50,8 +48,7 @@ function Test-WorkingTreeClean {
 
 $repos = Get-ChildItem -Path $Path -Directory |
     Where-Object {
-        (Test-Path (Join-Path $_.FullName '.git')) -and
-        ($ExcludedRepos -notcontains $_.Name)
+        Test-Path (Join-Path $_.FullName '.git')
     }
 
 if (-not $repos) {

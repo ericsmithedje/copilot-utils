@@ -2,7 +2,6 @@
 
 set -uo pipefail
 
-excluded_repos=("Orion180.Terraform")
 default_branch="main"
 
 script_dir="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
@@ -78,17 +77,6 @@ append_summary() {
     summary_pulled+=("$pulled")
     summary_deleted+=("$deleted_text")
     summary_warnings+=("$warning_text")
-}
-
-is_excluded_repo() {
-    local name="$1"
-    local excluded
-    for excluded in "${excluded_repos[@]}"; do
-        if [[ "$name" == "$excluded" ]]; then
-            return 0
-        fi
-    done
-    return 1
 }
 
 parse_args() {
@@ -241,10 +229,6 @@ for repo_path in "$workspace_path"/*; do
     [[ -d "$repo_path/.git" ]] || continue
 
     repo_name="$(basename "$repo_path")"
-    if is_excluded_repo "$repo_name"; then
-        continue
-    fi
-
     repos_found=1
     process_repo "$repo_name" "$repo_path"
 done
