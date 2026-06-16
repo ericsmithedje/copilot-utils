@@ -1,6 +1,22 @@
 # copilot-utils
 
-PowerShell utilities for [GitHub Copilot CLI](https://githubnext.com/projects/copilot-cli).
+PowerShell and Bash utilities for [GitHub Copilot CLI](https://githubnext.com/projects/copilot-cli).
+
+## Update-Workspace
+
+Update immediate child git repositories in a workspace to `main`, skip dirty repos,
+and clean stale local branches.
+
+```powershell
+.\Update-Workspace.ps1
+.\Update-Workspace.ps1 -Force
+```
+
+```bash
+./Update-Workspace.sh
+./Update-Workspace.sh --force
+./Update-Workspace.sh --dry-run
+```
 
 ## Switch-CopilotModel.ps1
 
